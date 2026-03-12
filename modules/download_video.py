@@ -26,11 +26,11 @@ def download_video(url, download_path="yt_downloads"):
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        print("Download completed successfully!")
+        print("\nDownload completed successfully!")
     except yt_dlp.utils.DownloadError as e:
-        print(f"Download error: {e}")
+        print(f"\nDownload error: {e}")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(f"\nAn unexpected error occurred: {e}")
 
 
 def progress_hook(d):

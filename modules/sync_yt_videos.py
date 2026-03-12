@@ -33,7 +33,7 @@ def sync_videos(original_path):
 
     # """ Copy videos to cloud """
     # Ask if it should be copied to pCloudDrive
-    answer = input("Do you want to copy video to pcloud? ").strip()
+    answer = input("\nDo you want to copy video to pcloud? ").strip()
 
     if answer in ["y", "yes"]:
         print(f"\nCopying to {cloud_path}")

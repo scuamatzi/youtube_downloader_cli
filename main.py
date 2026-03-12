@@ -1,5 +1,7 @@
 from modules.download_video import download_video
+from modules.mp3_conversion import convert_last_mp4_to_mp3
 from modules.sync_yt_videos import sync_videos
+import os
 
 
 def main():
@@ -19,6 +21,11 @@ def main():
 
     # Download the video
     download_video(url, download_path)
+
+    # Convert to mp3
+    mp3_answer = input("\nConvert it to mp3 file?? (y/n): ")
+    if mp3_answer in ["y", "yes"]:
+        convert_last_mp4_to_mp3(os.path.join(os.getcwd(), download_path))
 
     # Copy videos to cloud and move to local folder with current date.
     sync_videos(download_path)
