@@ -24,18 +24,25 @@ def sync_videos(original_path):
             print(f"Error creating local path for final videos: {e}")
             sys.exit(1)
 
-    if not os.path.exists(cloud_path):
-        try:
-            os.makedirs(cloud_path, exist_ok=True)
-        except Exception as e:
-            print(f"Error creating local path for final videos: {e}")
-            sys.exit(1)
+    #    if not os.path.exists(cloud_path):
+    #        try:
+    #            os.makedirs(cloud_path, exist_ok=True)
+    #        except Exception as e:
+    #            print(f"Error creating local path for final videos: {e}")
+    #            sys.exit(1)
 
     # """ Copy videos to cloud """
     # Ask if it should be copied to pCloudDrive
     answer = input("\nDo you want to copy video to pcloud? ").strip()
 
     if answer in ["y", "yes"]:
+        if not os.path.exists(cloud_path):
+            try:
+                os.makedirs(cloud_path, exist_ok=True)
+            except Exception as e:
+                print(f"Error creating local path for final videos: {e}")
+                sys.exit(1)
+
         print(f"\nCopying to {cloud_path}")
         try:
             shutil.copytree(original_path, cloud_path, dirs_exist_ok=True)
