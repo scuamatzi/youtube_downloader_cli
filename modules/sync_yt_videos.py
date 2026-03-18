@@ -4,67 +4,74 @@ import shutil
 import sys
 
 
-def sync_videos(original_path):
-    # """Create paths"""
-    current_date = datetime.now().strftime("%Y%m%d")
-    download_folder = "youtube_downloads"
-    local_path = f"/mnt/common/{download_folder}/{current_date}"
-    cloud_path = os.path.join(
-        os.getenv("HOME"), f"pCloudDrive/myFiles/{download_folder}/{current_date}"
-    )
-
-    if not os.path.exists(original_path):
-        print(f"Folder {original_path} with youtube videos doesn't exist. Exiting...")
+def verify_source_folder_exists(source_folder):
+    if not os.path.exists(source_folder):
+        print(f"Folder {source_folder} with youtube videos doesn't exist. Exiting...")
         sys.exit(1)
 
-    if not os.path.exists(local_path):
+
+def create_local_dest_folder(dest_folder):
+    if not os.path.exists(dest_folder):
         try:
-            os.makedirs(local_path, exist_ok=True)
+            os.makedirs(dest_folder, exist_ok=True)
         except Exception as e:
             print(f"Error creating local path for final videos: {e}")
             sys.exit(1)
 
-    #    if not os.path.exists(cloud_path):
-    #        try:
-    #            os.makedirs(cloud_path, exist_ok=True)
-    #        except Exception as e:
-    #            print(f"Error creating local path for final videos: {e}")
-    #            sys.exit(1)
 
-    # """ Copy videos to cloud """
-    # Ask if it should be copied to pCloudDrive
-    answer = input("\nDo you want to copy video to pcloud? ").strip()
-
-    if answer in ["y", "yes"]:
-        if not os.path.exists(cloud_path):
-            try:
-                os.makedirs(cloud_path, exist_ok=True)
-            except Exception as e:
-                print(f"Error creating local path for final videos: {e}")
-                sys.exit(1)
-
-        print(f"\nCopying to {cloud_path}")
+def copy_to_cloud(src_folder, dst_folder):
+    if not os.path.exists(dst_folder):
         try:
-            shutil.copytree(original_path, cloud_path, dirs_exist_ok=True)
+            os.makedirs(dst_folder, exist_ok=True)
         except Exception as e:
-            print(f"Error copying videos to cloud:  {e}")
+            print(f"Error creating local path for final videos: {e}")
             sys.exit(1)
 
-    # """ Move videos to local """
-    print(f"\nMoving to {local_path}")
+    print(f"\nCopying to {dst_folder}")
     try:
-        shutil.copytree(original_path, local_path, dirs_exist_ok=True)
+        shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
     except Exception as e:
         print(f"Error copying videos to cloud:  {e}")
         sys.exit(1)
 
-    # """ Delete videos download """
+
+def move_videos_to_local_folder(src_folder, dst_folder):
     try:
-        shutil.rmtree(original_path)
-        os.makedirs(original_path)
+        shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
     except Exception as e:
-        print(f"Error deleting youtube videos after doing backed up: {e}")
+        print(f"Error copying videos to {dst_folder}:  {e}")
         sys.exit(1)
+
+    # Delete videos download
+    try:
+        shutil.rmtree(src_folder)
+        os.makedirs(src_folder)
+    except Exception as e:
+        print(f"Error deleting youtube videos after doing backup: {e}")
+        sys.exit(1)
+
+
+def sync_videos(original_path):
+    # Create paths
+    current_date = datetime.now().strftime("%Y%m%d")
+    DOWNLOAD_FOLDER = "youtube_downloads"
+    local_dest_path = f"/mnt/common/{DOWNLOAD_FOLDER}/{current_date}"
+    cloud_dest_path = os.path.join(
+        os.getenv("HOME"), f"pCloudDrive/myFiles/{DOWNLOAD_FOLDER}/{current_date}"
+    )
+
+    verify_source_folder_exists(original_path)
+
+    create_local_dest_folder(local_dest_path)
+
+    # Ask if it should be copied to pCloudDrive
+    answer = input("\nDo you want to copy video to pcloud? ").strip()
+    if answer in ["y", "yes"]:
+        copy_to_cloud(original_path, cloud_dest_path)
+
+    # Move videos to final local folder
+    print(f"\nMoving to {local_dest_path}")
+    move_videos_to_local_folder(original_path, local_dest_path)
 
 
 if __name__ == "__main__":

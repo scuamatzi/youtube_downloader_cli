@@ -23,7 +23,7 @@ def main():
     download_video(url, download_path)
 
     # Convert to mp3
-    mp3_answer = input("\nConvert it to mp3 file?? (y/n): ")
+    mp3_answer = input("\nConvert it to mp3 format? (y/n): ")
     if mp3_answer in ["y", "yes"]:
         convert_last_mp4_to_mp3(os.path.join(os.getcwd(), download_path))
 
