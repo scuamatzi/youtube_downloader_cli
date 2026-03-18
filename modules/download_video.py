@@ -3,7 +3,17 @@ import yt_dlp
 
 
 def download_video(url, download_path="yt_downloads"):
-    # Create downloads directory if it doesn't exist
+    """
+    Download a youtube video to the specified folder
+
+    Args:
+        url(str): URL youtube video
+        download_path(str): Folder to save video - default -> "yt_downloads"
+
+    Returns: None
+    """
+
+    # Create download directory if it doesn't exist
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 

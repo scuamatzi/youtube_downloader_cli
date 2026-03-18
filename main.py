@@ -1,7 +1,7 @@
+import os
 from modules.download_video import download_video
 from modules.mp3_conversion import convert_last_mp4_to_mp3
 from modules.sync_yt_videos import sync_videos
-import os
 
 
 def main():

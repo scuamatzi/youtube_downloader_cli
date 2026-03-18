@@ -52,6 +52,18 @@ def move_videos_to_local_folder(src_folder, dst_folder):
 
 
 def sync_videos(original_path):
+    """
+    Copy files from 'original_path' to cloud then move them to local folder.
+    Use current date to organize files.
+
+    Args:
+        original_path(str): folder to sync
+
+    Returns:
+        None if everything is ok
+        Exit if exception raises
+    """
+
     # Create paths
     current_date = datetime.now().strftime("%Y%m%d")
     DOWNLOAD_FOLDER = "youtube_downloads"
