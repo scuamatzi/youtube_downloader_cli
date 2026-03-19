@@ -1,5 +1,8 @@
 import os
+from rich.console import Console
 import yt_dlp
+
+console = Console()
 
 
 def download_video(url, download_path="yt_downloads"):
@@ -34,9 +37,10 @@ def download_video(url, download_path="yt_downloads"):
     print("This may take a while depending on the video size...\n")
 
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-        print("\nDownload completed successfully!")
+        with console.status(""):
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([url])
+            print("\nDownload completed successfully!")
     except yt_dlp.utils.DownloadError as e:
         print(f"\nDownload error: {e}")
     except Exception as e:

@@ -1,7 +1,10 @@
 from datetime import datetime
 import os
+from rich.console import Console
 import shutil
 import sys
+
+console = Console()
 
 
 def verify_source_folder_exists(source_folder):
@@ -29,7 +32,8 @@ def copy_to_cloud(src_folder, dst_folder):
 
     print(f"\nCopying to {dst_folder}")
     try:
-        shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
+        with console.status(""):
+            shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
     except Exception as e:
         print(f"Error copying videos to cloud:  {e}")
         sys.exit(1)
@@ -37,15 +41,17 @@ def copy_to_cloud(src_folder, dst_folder):
 
 def move_videos_to_local_folder(src_folder, dst_folder):
     try:
-        shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
+        with console.status(""):
+            shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
     except Exception as e:
         print(f"Error copying videos to {dst_folder}:  {e}")
         sys.exit(1)
 
     # Delete videos download
     try:
-        shutil.rmtree(src_folder)
-        os.makedirs(src_folder)
+        with console.status(""):
+            shutil.rmtree(src_folder)
+            os.makedirs(src_folder)
     except Exception as e:
         print(f"Error deleting youtube videos after doing backup: {e}")
         sys.exit(1)

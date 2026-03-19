@@ -1,13 +1,27 @@
 import os
+from rich.console import Console
+from rich.panel import Panel
+
 from modules.download_video import download_video
 from modules.mp3_conversion import convert_last_mp4_to_mp3
 from modules.sync_yt_videos import sync_videos
 
+console = Console()
+
 
 def main():
-    print("=" * 50)
-    print("YouTube Video Downloader")
-    print("=" * 50)
+    #    print("=" * 50)
+    console.print(
+        Panel(
+            "App to download a youtube video, use current date for directory.\n"
+            + "Can be converted to mp3 format.\n"
+            + "Can be sync to cloud.",
+            title="Youtube Video Downloader",
+        ),
+        style="dodger_blue2",
+    )
+    # print("YouTube Video Downloader")
+    #    print("=" * 50)
 
     # Get video URL
     url = input("\nEnter the Youtube video URL: ").strip()
