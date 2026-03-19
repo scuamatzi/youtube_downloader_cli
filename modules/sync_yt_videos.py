@@ -30,7 +30,7 @@ def copy_to_cloud(src_folder, dst_folder):
             print(f"Error creating local path for final videos: {e}")
             sys.exit(1)
 
-    print(f"\nCopying to {dst_folder}")
+    console.print(f"\nCopying to {dst_folder}", style="dodger_blue2")
     try:
         with console.status(""):
             shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
@@ -83,12 +83,12 @@ def sync_videos(original_path):
     create_local_dest_folder(local_dest_path)
 
     # Ask if it should be copied to pCloudDrive
-    answer = input("\nDo you want to copy video to pcloud? ").strip()
+    answer = input("\nDo you want to copy files to pcloud? ").strip()
     if answer in ["y", "yes"]:
         copy_to_cloud(original_path, cloud_dest_path)
 
     # Move videos to final local folder
-    print(f"\nMoving to {local_dest_path}")
+    console.print(f"\nMoving to {local_dest_path}", style="dodger_blue2")
     move_videos_to_local_folder(original_path, local_dest_path)
 
 
