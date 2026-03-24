@@ -1,6 +1,7 @@
 import os
 from rich.console import Console
 from rich.panel import Panel
+import sys
 
 from modules.download_video import download_video
 from modules.mp3_conversion import convert_last_mp4_to_mp3
@@ -25,6 +26,10 @@ def main():
 
     # Get video URL
     url = input("\nEnter the Youtube video URL: ").strip()
+
+    if not url:
+        console.print("URL can not be empty. Exiting!", style="dark_orange")
+        sys.exit(1)
 
     # Get download path
     download_path = input(

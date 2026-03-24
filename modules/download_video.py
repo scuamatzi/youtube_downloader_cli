@@ -1,6 +1,7 @@
 import os
 from rich.console import Console
 import yt_dlp
+import sys
 
 console = Console()
 
@@ -33,18 +34,20 @@ def download_video(url, download_path="yt_downloads"):
         "progress_hooks": [progress_hook],
     }
 
-    print(f"\nDownloading video to: {download_path}")
-    print("This may take a while depending on the video size...\n")
+    console.print(f"\nDownloading video to: {download_path}", style="turquoise4")
+    print("This may take a while depending on video size...\n")
 
     try:
         with console.status(""):
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
-            print("\nDownload completed successfully!")
+            console.print("\nDownload completed successfully!", style="dodger_blue2")
     except yt_dlp.utils.DownloadError as e:
-        print(f"\nDownload error: {e}")
+        console.print(f"\nDownload error: {e}", style="dark_orange")
+        sys.exit(1)
     except Exception as e:
-        print(f"\nAn unexpected error occurred: {e}")
+        console.print(f"\nAn unexpected error occurred: {e}", style="dark_orange")
+        sys.exit(1)
 
 
 def progress_hook(d):
