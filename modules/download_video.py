@@ -38,10 +38,10 @@ def download_video(url, download_path="yt_downloads"):
     print("This may take a while depending on video size...\n")
 
     try:
-        with console.status(""):
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([url])
-            console.print("\nDownload completed successfully!", style="dodger_blue2")
+        # with console.status(""):
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        console.print("\nDownload completed successfully!", style="dodger_blue2")
     except yt_dlp.utils.DownloadError as e:
         console.print(f"\nDownload error: {e}", style="dark_orange")
         sys.exit(1)

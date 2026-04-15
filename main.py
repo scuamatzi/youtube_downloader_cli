@@ -11,7 +11,6 @@ console = Console()
 
 
 def main():
-    #    print("=" * 50)
     console.print(
         Panel(
             "App to download a youtube video, use current date for directory.\n"
@@ -21,8 +20,6 @@ def main():
         ),
         style="dodger_blue2",
     )
-    # print("YouTube Video Downloader")
-    #    print("=" * 50)
 
     # Get video URL
     url = input("\nEnter the Youtube video URL: ").strip()
